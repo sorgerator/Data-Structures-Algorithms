@@ -38,7 +38,7 @@ Implement the following methods:
     // Example:
     Node<Data>* a;
     Node<Data>* b;
-    Node<Data>* c = ptr_xor(a, b); // c now holds the XOR of a's and b's address
+    Node<Data>* c = ptr_xor<Data>(a, b); // c now holds the XOR of a's and b's address
     ```
 - The `Node<Data>* get_head()` function is necessary for running tests, so do not remove it.
 
