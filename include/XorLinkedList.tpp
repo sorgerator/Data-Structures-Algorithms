@@ -89,7 +89,6 @@ XorLinkedList<Data>::XorLinkedList(XorLinkedList<Data> &&src) noexcept {
     head = src.head;
     size = src.size;
 
-    // Leave src in empty state
     src.head = nullptr;
     src.size = 0;
 }
@@ -98,14 +97,11 @@ template<typename Data>
 XorLinkedList<Data> &XorLinkedList<Data>::operator=(XorLinkedList<Data> &&src) noexcept {
     // your code
     if (this != &src) {
-        // Clean up current resources
         this->~XorLinkedList();
 
-        // Steal resources
         head = src.head;
         size = src.size;
 
-        // Leave src empty
         src.head = nullptr;
         src.size = 0;
     }
@@ -159,7 +155,6 @@ void XorLinkedList<Data>::add_to_back(const Data &data) {
     while (true) {
         next = ptr_xor<Data>(prev, curr->both);
         if (next == nullptr) {
-            // curr is tail
             break;
         }
         prev = curr;
