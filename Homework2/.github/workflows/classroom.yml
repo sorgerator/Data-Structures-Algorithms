@@ -1,0 +1,130 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: ProcessQueueBasicOperations
+      id: processqueuebasicoperations
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: ProcessQueueBasicOperations
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="ProcessQueueBasicOperations"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler1
+      id: roundrobinscheduler1
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler1
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler1"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler2
+      id: roundrobinscheduler2
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler2
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler2"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler3
+      id: roundrobinscheduler3
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler3
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler3"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler4
+      id: roundrobinscheduler4
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler4
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler4"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler5
+      id: roundrobinscheduler5
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler5
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler5"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler6
+      id: roundrobinscheduler6
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler6
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler6"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler7
+      id: roundrobinscheduler7
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler7
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler7"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler8
+      id: roundrobinscheduler8
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler8
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler8"
+        timeout: 10
+        max-score: 10
+    - name: RoundRobinScheduler9
+      id: roundrobinscheduler9
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RoundRobinScheduler9
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RoundRobinScheduler9"
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        PROCESSQUEUEBASICOPERATIONS_RESULTS: "${{steps.processqueuebasicoperations.outputs.result}}"
+        ROUNDROBINSCHEDULER1_RESULTS: "${{steps.roundrobinscheduler1.outputs.result}}"
+        ROUNDROBINSCHEDULER2_RESULTS: "${{steps.roundrobinscheduler2.outputs.result}}"
+        ROUNDROBINSCHEDULER3_RESULTS: "${{steps.roundrobinscheduler3.outputs.result}}"
+        ROUNDROBINSCHEDULER4_RESULTS: "${{steps.roundrobinscheduler4.outputs.result}}"
+        ROUNDROBINSCHEDULER5_RESULTS: "${{steps.roundrobinscheduler5.outputs.result}}"
+        ROUNDROBINSCHEDULER6_RESULTS: "${{steps.roundrobinscheduler6.outputs.result}}"
+        ROUNDROBINSCHEDULER7_RESULTS: "${{steps.roundrobinscheduler7.outputs.result}}"
+        ROUNDROBINSCHEDULER8_RESULTS: "${{steps.roundrobinscheduler8.outputs.result}}"
+        ROUNDROBINSCHEDULER9_RESULTS: "${{steps.roundrobinscheduler9.outputs.result}}"
+      with:
+        runners: processqueuebasicoperations,roundrobinscheduler1,roundrobinscheduler2,roundrobinscheduler3,roundrobinscheduler4,roundrobinscheduler5,roundrobinscheduler6,roundrobinscheduler7,roundrobinscheduler8,roundrobinscheduler9
