@@ -1,0 +1,130 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: StructConstructors
+      id: structconstructors
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: StructConstructors
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="StructConstructors"
+        timeout: 10
+        max-score: 10
+    - name: BasicIndexingAndSearch
+      id: basicindexingandsearch
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: BasicIndexingAndSearch
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="BasicIndexingAndSearch"
+        timeout: 10
+        max-score: 10
+    - name: MultipleKeywordsAndAggregation
+      id: multiplekeywordsandaggregation
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: MultipleKeywordsAndAggregation
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="MultipleKeywordsAndAggregation"
+        timeout: 10
+        max-score: 10
+    - name: SearchEdgeCases
+      id: searchedgecases
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: SearchEdgeCases
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="SearchEdgeCases"
+        timeout: 10
+        max-score: 10
+    - name: DebugModeToggle
+      id: debugmodetoggle
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: DebugModeToggle
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="DebugModeToggle"
+        timeout: 10
+        max-score: 10
+    - name: DebugModeEdgeCounting
+      id: debugmodeedgecounting
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: DebugModeEdgeCounting
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="DebugModeEdgeCounting"
+        timeout: 10
+        max-score: 10
+    - name: OutputOperatorSuccessful
+      id: outputoperatorsuccessful
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: OutputOperatorSuccessful
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="OutputOperatorSuccessful"
+        timeout: 10
+        max-score: 10
+    - name: OutputOperatorUnsuccessful
+      id: outputoperatorunsuccessful
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: OutputOperatorUnsuccessful
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="OutputOperatorUnsuccessful"
+        timeout: 10
+        max-score: 10
+    - name: RedBlackTreeProperties
+      id: redblacktreeproperties
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: RedBlackTreeProperties
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="RedBlackTreeProperties"
+        timeout: 10
+        max-score: 10
+    - name: IntegrationTests
+      id: integrationtests
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: IntegrationTests
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="IntegrationTests"
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        STRUCTCONSTRUCTORS_RESULTS: "${{steps.structconstructors.outputs.result}}"
+        BASICINDEXINGANDSEARCH_RESULTS: "${{steps.basicindexingandsearch.outputs.result}}"
+        MULTIPLEKEYWORDSANDAGGREGATION_RESULTS: "${{steps.multiplekeywordsandaggregation.outputs.result}}"
+        SEARCHEDGECASES_RESULTS: "${{steps.searchedgecases.outputs.result}}"
+        DEBUGMODETOGGLE_RESULTS: "${{steps.debugmodetoggle.outputs.result}}"
+        DEBUGMODEEDGECOUNTING_RESULTS: "${{steps.debugmodeedgecounting.outputs.result}}"
+        OUTPUTOPERATORSUCCESSFUL_RESULTS: "${{steps.outputoperatorsuccessful.outputs.result}}"
+        OUTPUTOPERATORUNSUCCESSFUL_RESULTS: "${{steps.outputoperatorunsuccessful.outputs.result}}"
+        REDBLACKTREEPROPERTIES_RESULTS: "${{steps.redblacktreeproperties.outputs.result}}"
+        INTEGRATIONTESTS_RESULTS: "${{steps.integrationtests.outputs.result}}"
+      with:
+        runners: structconstructors,basicindexingandsearch,multiplekeywordsandaggregation,searchedgecases,debugmodetoggle,debugmodeedgecounting,outputoperatorsuccessful,outputoperatorunsuccessful,redblacktreeproperties,integrationtests
