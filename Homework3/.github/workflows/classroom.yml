@@ -1,0 +1,75 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: DualPivotQuicksort
+      id: dualpivotquicksort
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: DualPivotQuicksort
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="DualPivotQuicksort"
+        timeout: 10
+        max-score: 20
+    - name: BinarySearchSuccessMulti
+      id: binarysearchsuccessmulti
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: BinarySearchSuccessMulti
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="BinarySearchSuccessMulti"
+        timeout: 10
+        max-score: 20
+    - name: BinarySearchFail
+      id: binarysearchfail
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: BinarySearchFail
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="BinarySearchFail"
+        timeout: 10
+        max-score: 20
+    - name: BinarySearchSuccessSingle
+      id: binarysearchsuccesssingle
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: BinarySearchSuccessSingle
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="BinarySearchSuccessSingle"
+        timeout: 10
+        max-score: 20
+    - name: FileUtils
+      id: fileutils
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: FileUtils
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="FileUtils"
+        timeout: 10
+        max-score: 20
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        DUALPIVOTQUICKSORT_RESULTS: "${{steps.dualpivotquicksort.outputs.result}}"
+        BINARYSEARCHSUCCESSMULTI_RESULTS: "${{steps.binarysearchsuccessmulti.outputs.result}}"
+        BINARYSEARCHFAIL_RESULTS: "${{steps.binarysearchfail.outputs.result}}"
+        BINARYSEARCHSUCCESSSINGLE_RESULTS: "${{steps.binarysearchsuccesssingle.outputs.result}}"
+        FILEUTILS_RESULTS: "${{steps.fileutils.outputs.result}}"
+      with:
+        runners: dualpivotquicksort,binarysearchsuccessmulti,binarysearchfail,binarysearchsuccesssingle,fileutils
