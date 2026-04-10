@@ -1,0 +1,64 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: FileUtils
+      id: fileutils
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: FileUtils
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="FileUtils"
+        timeout: 10
+        max-score: 25
+    - name: BinarySearchTreeOperations
+      id: binarysearchtreeoperations
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: BinarySearchTreeOperations
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="BinarySearchTreeOperations"
+        timeout: 10
+        max-score: 25
+    - name: BinarySearchTreeEdgeCount
+      id: binarysearchtreeedgecount
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: BinarySearchTreeEdgeCount
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="BinarySearchTreeEdgeCount"
+        timeout: 10
+        max-score: 25
+    - name: BinarySearchTreeInorderSort
+      id: binarysearchtreeinordersort
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: BinarySearchTreeInorderSort
+        setup-command: cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -B build && cmake
+          --build build
+        command: ./build/Test --test-case="BinarySearchTreeInorderSort"
+        timeout: 10
+        max-score: 25
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        FILEUTILS_RESULTS: "${{steps.fileutils.outputs.result}}"
+        BINARYSEARCHTREEOPERATIONS_RESULTS: "${{steps.binarysearchtreeoperations.outputs.result}}"
+        BINARYSEARCHTREEEDGECOUNT_RESULTS: "${{steps.binarysearchtreeedgecount.outputs.result}}"
+        BINARYSEARCHTREEINORDERSORT_RESULTS: "${{steps.binarysearchtreeinordersort.outputs.result}}"
+      with:
+        runners: fileutils,binarysearchtreeoperations,binarysearchtreeedgecount,binarysearchtreeinordersort
